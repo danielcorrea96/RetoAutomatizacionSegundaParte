@@ -1,5 +1,6 @@
 package com.accenture.certificacion.stepdefinitions;
 
+import com.accenture.certificacion.exceptions.ArchivoIncorrecto;
 import com.accenture.certificacion.questions.VerificarElArchivo;
 import com.accenture.certificacion.tasks.RevisarLaPolitica;
 import com.accenture.certificacion.userinterface.PaginaPrincipalLatam;
@@ -34,6 +35,9 @@ public class PoliticaDeProteccionDeDatosPersonalesStepDefinitions {
 
     @Entonces("^deberia visualizar el archivo PDF con nombre (.*) de LATAM$")
     public void deberiaVisualizarElArchivoPDFDeLaPoliticaDeProteccionDeDatosPersonalesDeLATAM(String nombreDeArchivo) {
-        theActorInTheSpotlight().should(seeThat(VerificarElArchivo.deLaPoliticaDeDatosPersonales(nombreDeArchivo)));
+        theActorInTheSpotlight().should(
+                seeThat(VerificarElArchivo.deLaPoliticaDeDatosPersonales(nombreDeArchivo))
+                        .orComplainWith(ArchivoIncorrecto.class, ArchivoIncorrecto.ARCHIVO_INCORRECTO)
+        );
     }
 }
